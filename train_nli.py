@@ -70,7 +70,7 @@ def parse_args():
 
 if __name__ == "__main__":
     args = parse_args()
-    device = device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     num_workers = 8
     enable_autocast = True
 
