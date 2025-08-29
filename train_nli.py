@@ -78,7 +78,7 @@ if __name__ == "__main__":
     args_dict = {k: v for k, v in vars(args).items() if k in field_names}
     train_data = NLITrainingData(**args_dict)
 
-    save_to = f"./runs/test{train_data.base_model_name.split('/')[1]}_" \
+    save_to = f"./runs/{train_data.base_model_name.split('/')[1]}_" \
               f"{train_data.N}x{train_data.D}_lbd{train_data.lbd}_" \
               f"context{train_data.max_length}_" \
               f"{'2way' if train_data.two_way else ''}"
