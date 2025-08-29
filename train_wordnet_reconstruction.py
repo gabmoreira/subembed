@@ -1,31 +1,29 @@
+import sys
 import logging
 import argparse
-
-from pathlib import Path
-from dataclasses import dataclass, asdict, fields
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from pathlib import Path
+from dataclasses import dataclass, asdict, fields
 from tqdm.auto import tqdm
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from torcheval.metrics import Mean
 from torch import Tensor
+from typing import Dict, Any, Union, Optional
+
 from data import build_hypernym_graph, Reconstruction
 from subspaces import ridge_projector
 
-from typing import Dict, Any, Union, Optional
+logging.basicConfig(
+    level=logging.INFO,  # INFO for training, DEBUG if debugging internals
+    format="[%(asctime)s] %(levelname)s %(name)s: %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-if not logger.handlers:
-    handler = logging.StreamHandler()  # send to console
-    formatter = logging.Formatter("[%(asctime)s] %(levelname)s: %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-
 
 @dataclass
 class ReconstructionData:
@@ -34,9 +32,8 @@ class ReconstructionData:
     N: Optional[int] = None # Num vectors per node
     D: Optional[int] = None # Embedding dimension
     lbd: Optional[float] = None # Regularization
-    group_size: Optional[int] = None # Num positives + num negative
-    synset: Optional[str] = None
-    metric: Optional[str] = None
+    group_size: Optional[int] = None # Num positives (1) + num negatives
+    synset: Optional[str] = None # "n" - nouns, "v" - verbs
     epoch: Optional[int] = None
     epochs: Optional[int] = None
     state_dict: Optional[Dict[str, Any]] = None
@@ -54,7 +51,6 @@ class ReconstructionData:
         filtered_data = {k: v for k, v in data.items() if k in field_names}
         return ReconstructionData(**filtered_data)
 
-
 def compute_similarity(
     emb_i: Tensor,
     emb_j: Tensor,
@@ -67,20 +63,18 @@ def compute_similarity(
     scores = torch.einsum("bd,bgd->bg", proj_i.flatten(1,2), proj_j.flatten(2,3))
     return scores
 
-
 def parse_args():
     parser = argparse.ArgumentParser(description="Train graph embeddings for reconstruction.")
-    parser.add_argument("--batch_size", type=int, default=128, help="Batch size for training")
-    parser.add_argument("--epochs", type=int, default=100, help="Number of training epochs")
-    parser.add_argument("--synset", type=str, default="n", help="Synset: n or v")
-    parser.add_argument("--group_size", type=int, default=20, help="Number of positives + negatives per sample")
-    parser.add_argument("--N", type=int, default=128, help="Number of vectors per node")
-    parser.add_argument("--D", type=int, default=128, help="Embedding dimension")
-    parser.add_argument("--lbd", type=float, default=0.2, help="Regularization parameter λ")
-    parser.add_argument("--std_init", type=float, default=1e-4, help="Std-dev for weight initialization")
-    parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate")
+    parser.add_argument("--batch_size", type=int, default=128, help="Batch size for training.")
+    parser.add_argument("--epochs", type=int, default=100, help="Number of training epochs.")
+    parser.add_argument("--synset", type=str, required=True, help="Synset: n (nouns) or v (verbs).")
+    parser.add_argument("--group_size", type=int, default=20, help="Number of positives + negatives per sample.")
+    parser.add_argument("--N", type=int, default=128, help="Number of vectors per node.")
+    parser.add_argument("--D", type=int, default=128, help="Embedding dimension.")
+    parser.add_argument("--lbd", type=float, default=0.2, help="Regularization parameter λ.")
+    parser.add_argument("--std_init", type=float, default=1e-4, help="Std-dev for weight initialization.")
+    parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate.")
     return parser.parse_args()
-
 
 def train_one_epoch(
     embeddings: nn.Embedding,
@@ -134,7 +128,6 @@ def train_one_epoch(
         )
         pbar.update() 
     return step_count
-
 
 def main():
     args = parse_args()

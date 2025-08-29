@@ -1,3 +1,4 @@
+import sys
 import logging
 import argparse
 import torch
@@ -9,18 +10,17 @@ from data.graph import *
 from subspaces import *
 from train_wordnet_reconstruction import ReconstructionData
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,  # INFO for training, DEBUG if debugging internals
+    format="[%(asctime)s] %(levelname)s %(name)s: %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
 
-if not logger.handlers:
-    handler = logging.StreamHandler()
-    formatter = logging.Formatter("[%(asctime)s] %(levelname)s: %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+logger = logging.getLogger(__name__)
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Evaluate WordNet embeddings on HyperLex.")
-    parser.add_argument("--embeddings_path", type=str, default="./", help="Path to embeddings file")
+    parser.add_argument("--embed_path", type=str, default="./", help="Path to embeddings file")
     parser.add_argument("--hyperlex_path", type=str, default="./", help="Path to hyperlex hyperlex-nouns.txt file")
     parser.add_argument("--lbd", type=float, default=0.2, help="Regularization parameter λ")
     return parser.parse_args()
@@ -29,7 +29,7 @@ def main():
     args = parse_args()
     device = device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    emb_data = ReconstructionData.load(args.embeddings_path)
+    emb_data = ReconstructionData.load(args.embed_path)
 
     embeddings = nn.Embedding(
         num_embeddings=len(emb_data.state_dict["weight"]),
@@ -45,6 +45,7 @@ def main():
     proj = ridge_projector(
         embeddings.weight.view(-1, emb_data.N, emb_data.D), lbd=args.lbd, chol=False
     )
+    logger.info(f"Projectors: {proj.shape[0]}x{proj.shape[1]}x{proj.shape[2]}")
 
     hyperlex = []
     with open(args.hyperlex_path, 'r') as file:
@@ -87,7 +88,8 @@ def main():
         gt_scores.append(gt_score)
 
     corr, p_value = spearmanr(gt_scores, es_scores)
-    logger.info(f"Spearman rank-correlation: {corr:.4f}")
+    logger.info(f"Results for {args.embed_path}")
+    logger.info(f"Spearman rank-correlation  (lbd={args.lbd}): {corr:.4f}")
 
 if __name__ == "__main__":
     main()

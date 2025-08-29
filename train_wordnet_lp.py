@@ -1,14 +1,16 @@
+import sys
 import logging
 import argparse
-from pathlib import Path
-from dataclasses import dataclass, asdict, fields
-from typing import Any, Dict, Optional, Union
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+from pathlib import Path
+from dataclasses import dataclass, asdict, fields
+from typing import Any, Dict, Optional, Union
 from torch import Tensor
 from torch.utils.data import DataLoader
+from torch.optim import SparseAdam
 from torch.utils.tensorboard import SummaryWriter
 from torcheval.metrics import BinaryAUPRC, Mean
 from tqdm.auto import tqdm
@@ -16,14 +18,13 @@ from tqdm.auto import tqdm
 from subspaces import ridge_projector
 from data import LinkPrediction
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logging.basicConfig(
+    level=logging.INFO,  # INFO for training, DEBUG if debugging internals
+    format="[%(asctime)s] %(levelname)s %(name)s: %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
 
-if not logger.handlers:
-    handler = logging.StreamHandler()
-    formatter = logging.Formatter("[%(asctime)s] %(levelname)s: %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+logger = logging.getLogger(__name__)
 
 EPS = 1e-6
 
@@ -63,17 +64,18 @@ class LinkPredictionData:
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train graph embeddings for link prediction.")
-    parser.add_argument("--batch_size", type=int, default=128, help="Batch size for training")
-    parser.add_argument("--epochs", type=int, default=200, help="Number of training epochs")
-    parser.add_argument("--group_size", type=int, default=11, help="Number of positives + negatives per sample")
-    parser.add_argument("--closure", type=float, default=0.0, help="Fraction of non-basic edges")
-    parser.add_argument("--N", type=int, default=200, help="Number of vectors per node")
-    parser.add_argument("--D", type=int, default=128, help="Embedding dimension")
-    parser.add_argument("--lbd", type=float, default=0.2, help="Regularization parameter λ")
-    parser.add_argument("--gamma_pos", type=float, default=0.8, help="Positive margin γ+")
-    parser.add_argument("--gamma_neg", type=float, default=0.1, help="Negative margin γ−")
-    parser.add_argument("--std_init", type=float, default=1e-4, help="Std-dev for weight initialization")
-    parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate")
+    parser.add_argument("--dataset_path", type=str, required=True, help="Path to the Link Prediction dataset.")
+    parser.add_argument("--batch_size", type=int, default=128, help="Batch size for training.")
+    parser.add_argument("--epochs", type=int, default=200, help="Number of training epochs.")
+    parser.add_argument("--group_size", type=int, default=11, help="Number of positives + negatives per sample.")
+    parser.add_argument("--closure", type=float, required=True, help="Fraction <= 1 of non-basic edges.")
+    parser.add_argument("--N", type=int, default=128, help="Number of vectors per node.")
+    parser.add_argument("--D", type=int, default=128, help="Ambient space dimension.")
+    parser.add_argument("--lbd", type=float, default=0.2, help="Regularization parameter λ.")
+    parser.add_argument("--gamma_pos", type=float, default=0.8, help="Positive margin γ+.")
+    parser.add_argument("--gamma_neg", type=float, default=0.1, help="Negative margin γ−.")
+    parser.add_argument("--std_init", type=float, default=1e-4, help="Std-dev for weight initialization.")
+    parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate.")
     return parser.parse_args()
 
 def compute_scores(
@@ -154,23 +156,28 @@ def main():
     args = parse_args()
     device = device = "cuda" if torch.cuda.is_available() else "cpu"
     num_workers = 16
-    emb_data = LinkPredictionData(**vars(args))
+
+    field_names = {f.name for f in fields(LinkPredictionData)}
+    args_dict = {k: v for k, v in vars(args).items() if k in field_names}
+    emb_data = LinkPredictionData(**args_dict)
     
-    root_dir = f"./wordnet_embeddings/testlinkprediction_" \
+    root_dir = f"./wordnet_embeddings/linkprediction_" \
                f"{int(100 * emb_data.closure)}_wordnet_" \
                f"subspace_{emb_data.N}x{emb_data.D}_{emb_data.lbd}_{emb_data.group_size}"
     Path(root_dir).mkdir(parents=True, exist_ok=True)
     filename = f"{root_dir}/config.pt"
 
     train_dataset = LinkPrediction(
-        group_size=emb_data.group_size,
-        split="train",
+        root=args.dataset_path,
         closure=emb_data.closure,
+        split="train",
+        group_size=emb_data.group_size,
     )
     val_dataset = LinkPrediction(
+        root=args.dataset_path,
+        closure=emb_data.closure,
+        split="val", 
         group_size=emb_data.group_size,
-        closure=emb_data.closure, 
-        split="val"
     )
     train_dataloader = DataLoader(
         train_dataset,
@@ -205,7 +212,7 @@ def main():
     with torch.no_grad():
         embeddings.weight.copy_(init.view(len(train_dataset.node_to_idx), -1))
 
-    optimizer = torch.optim.SparseAdam(embeddings.parameters(), lr=emb_data.lr)
+    optimizer = SparseAdam(embeddings.parameters(), lr=emb_data.lr)
     writer = SummaryWriter(log_dir=root_dir)
 
     emb_data.node_to_idx = train_dataset.node_to_idx
