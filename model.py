@@ -265,7 +265,7 @@ class TransformerSubspaceEmbedder(nn.Module):
         device: Union[torch.device, str],
     ) -> Tensor:
         """
-        Encode raw text into smoot subspace projector.
+        Encode raw text into smooth subspace projector.
 
         Args:
             text (List[str]): List of input sentences.
