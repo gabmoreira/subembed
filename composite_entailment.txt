@@ -1,0 +1,301 @@
+premise.hypothesis.update.label
+Two children are sitting on a red picnic blanket, eating sandwiches.People are eating.People sitting on a blanket.0
+Two children are sitting on a red picnic blanket, eating sandwiches.People are eating.People sitting sitting directly on the grass.2
+A runner in a blue singlet is crossing the finish line of a marathon.A person is finishing a race.A person is running.0
+A runner in a blue singlet is crossing the finish line of a marathon.A person is finishing a race.A person is standing still at the starting line.2
+A toddler is holding a large, red, inflatable beach ball.A child is holding a toy.A large and inflatable toy.0
+A toddler is holding a large, red, inflatable beach ball.A child is holding a toy.A small bowling ball.2
+A person is hammering a nail into a piece of wood.A person is using a tool.A person holding a hammer.0
+A person is hammering a nail into a piece of wood.A person is using a tool.A person holding a screwdriver.2
+A man is unlocking his front door with a key.A person interacting with a door.The person outside the house.0
+A man is unlocking his front door with a key.A person interacting with a door.The person in the kitchen.2
+A woman is sitting in a large, comfortable armchair in her living room.A person is resting.The person is indoors.0
+A woman is sitting in a large, comfortable armchair in her living room.A person is resting.The person is in a public park.2
+A batter swings a wooden bat and makes contact with the ball.A person is playing a sport.The person is hitting a ball.0
+A batter swings a wooden bat and makes contact with the ball.A person is playing a sport.The person is throwing a ball.2
+A man is drinking from a steaming mug of hot chocolate.A person is consuming a beverage.The drink is hot.0
+A man is drinking from a steaming mug of hot chocolate.A person is consuming a beverage.The drink is iced.2
+A firefighter is ascending a tall ladder placed against the side of a building.A person is moving upwards.The person is climbing a ladder.0
+A firefighter is ascending a tall ladder placed against the side of a building.A person is moving upwards.The person is riding an elevator.2
+A man is melting a stick of butter in a hot pan.A person is cooking.The butter is becoming liquid.0
+A man is melting a stick of butter in a hot pan.A person is cooking.The butter is remaining solid.2
+A woman just dropped a glass vase on a tile floor, and it shattered.An object has broken.The vase is in multiple pieces.0
+A woman just dropped a glass vase on a tile floor, and it shattered.An object has broken.The vase is perfectly intact.2
+A car is driving slowly through a thick, dense fog.A vehicle is moving.Visibility is poor.0
+A car is driving slowly through a thick, dense fog.A vehicle is moving.The day is clear and sunny.2
+A large, open cardboard box is sitting empty on the floor.There is a container on the floor.The container has nothing inside it.0
+A large, open cardboard box is sitting empty on the floor.There is a container on the floor.The container is full of books.2
+A carpenter is using a power drill to attach a shelf to a wall.A person is working with a tool.The tool is electric.0
+A carpenter is using a power drill to attach a shelf to a wall.A person is working with a tool.The tool is a manual hammer.2
+A chef is seasoning a raw steak just before placing it on a hot grill.A person is preparing to cook.The steak is not yet cooked.0
+A chef is seasoning a raw steak just before placing it on a hot grill.A person is preparing to cook.The steak is already cooked and resting.2
+Children smiling and waving at camera.There are children present.They are smiling.0
+Children smiling and waving at camera.There are children present.They are crying.2
+Two dogs carrying a red toy in their mouths and running in water.two dogs are running.dogs in the water carrying a toy.0
+Two dogs carrying a red toy in their mouths and running in water.two dogs are running.dogs in the grass carrying a toy.2
+An elder female in a long coat holding an animal with another one behind her.The woman has two pets.The woman is wearing a coat.0
+An elder female in a long coat holding an animal with another one behind her.The woman has two pets.The woman is holding an umbrella.2
+A man wearing blue jeans and blue shirt sitting on a windowing washing swing washing a window.A man is washing a window.a man dressed in blue.0
+A man wearing blue jeans and blue shirt sitting on a windowing washing swing washing a window.A man is washing a window.a man dressed in pink.2
+A man in an orange vest worn over a blue short-sleeve collar shirt sits at a computer terminal.A computer terminal is manned by a person.A person wearing an orange vest and a shirt.0
+A man in an orange vest worn over a blue short-sleeve collar shirt sits at a computer terminal.A computer terminal is manned by a person.A person wearing a black vest.2
+A girl in purple pants running with two dogs.A human running.a woman wearing purple pants.0
+A girl in purple pants running with two dogs.A human running.a woman wearing a pink skirt.2
+A man in a black wetsuit is surfing a large blue wave.A person is in the ocean.The man is wearing a wetsuit.0
+A man in a black wetsuit is surfing a large blue wave.A person is in the ocean.The man is wearing swim trunks.2
+A woman with curly brown hair plays a wooden acoustic guitar on a stage.Someone is playing music.An acoustic guitar on stage.0
+A woman with curly brown hair plays a wooden acoustic guitar on a stage.Someone is playing music.An electric guitar on stage.2
+A chef in a white hat is slicing red tomatoes on a cutting board.A person is preparing food.A chef is slicing tomatoes.0
+A chef in a white hat is slicing red tomatoes on a cutting board.A person is preparing food.A chef is slicing onions.2
+Three children are kicking a soccer ball on a grassy field.Children are playing outside.People are playing on grass.0
+Three children are kicking a soccer ball on a grassy field.Children are playing outside.People are playing on concrete.2
+A fluffy white cat is sleeping on a red sofa.An animal is resting.A white cat.0
+A fluffy white cat is sleeping on a red sofa.An animal is resting.A black cat.2
+A construction worker in a yellow hardhat is drilling a hole in a wall.A person is working.A person wearing a hardhat.0
+A construction worker in a yellow hardhat is drilling a hole in a wall.A person is working.A person wearing a baseball cap.2
+A young boy is riding a blue bicycle down a paved street.A child is riding a bike.A blue bicycle.0
+A young boy is riding a blue bicycle down a paved street.A child is riding a bike.A red bicycle.2
+A brown dog with floppy ears is chasing a yellow tennis ball across a lush green lawn.An animal is playing.A brown dog.0
+A brown dog with floppy ears is chasing a yellow tennis ball across a lush green lawn.An animal is playing.A black dog.2
+A senior citizen is sitting on a wooden bench, feeding pigeons small pieces of bread.An elderly person interacting with birds.A person feeding pigeons.0
+A senior citizen is sitting on a wooden bench, feeding pigeons small pieces of bread.An elderly person interacting with birds.A person feeding ducks.2
+A firefighter is climbing a tall red ladder attached to a burning building.A person is ascending a ladder.A red ladder.0
+A firefighter is climbing a tall red ladder attached to a burning building.A person is ascending a ladder.A yellow ladder.2
+A musician with long hair is playing a black electric guitar on a brightly lit stage.Someone is performing on stage.A musician playing an electric guitar.0
+A musician with long hair is playing a black electric guitar on a brightly lit stage.Someone is performing on stage.A musician playing a violin.2
+A young couple is holding hands while walking through a crowded farmer's market.Two people are walking together.People at a market.0
+A young couple is holding hands while walking through a crowded farmer's market.Two people are walking together.People walking on a beach.2
+A child wearing a red helmet is riding a small scooter on the sidewalk.A person is using wheeled transport.A child wearing a helmet.0
+A child wearing a red helmet is riding a small scooter on the sidewalk.A person is using wheeled transport.A child riding a bicycle.2
+A man in a business suit is talking on a smartphone while walking quickly down a city street.A person is using a phone.A man wearing a suit.0
+A man in a business suit is talking on a smartphone while walking quickly down a city street.A person is using a phone.A man sitting down.2
+A man in a green t-shirt is mowing a suburban lawn with a push mower.A person is doing yard work.A man wearing a green t-shirt.0
+A man in a green t-shirt is mowing a suburban lawn with a push mower.A person is doing yard work.A man wearing a blue jacket.2
+A black cat with white paws is sleeping peacefully on a sunny windowsill.An animal is resting.A black cat.0
+A black cat with white paws is sleeping peacefully on a sunny windowsill.An animal is resting.An orange cat.2
+A man wearing round glasses is sitting in a large armchair, reading a thick hardcover book.A person is reading.A man is wearing glasses.0
+A man wearing round glasses is sitting in a large armchair, reading a thick hardcover book.A person is reading.A man not wearing glasses.2
+Two young boys in red shirts are playing soccer in a muddy park.Children are playing a sport.Boys wearing red shirts.0
+Two young boys in red shirts are playing soccer in a muddy park.Children are playing a sport.Boys wearing blue shirts.2
+A couple is sitting at an outdoor cafe table, sharing a large pepperoni pizza.Two people are eating.People eating pizza.0
+A couple is sitting at an outdoor cafe table, sharing a large pepperoni pizza.Two people are eating.People eating pasta.2
+A woman in a pink sweatshirt is jogging on a trail next to a river.A person is exercising.A woman wearing a pink sweatshirt.0
+A woman in a pink sweatshirt is jogging on a trail next to a river.A person is exercising.A woman wearing a green jacket.2
+A person wearing a blue apron is kneading dough on a floured countertop.Someone preparing food.A person wearing a blue apron.0
+A person wearing a blue apron is kneading dough on a floured countertop.Someone preparing food.A person wearing a red apron.2
+A small yellow bird is perched on a leafless tree branch against a clear blue sky.A bird is outside.A yellow bird.0
+A small yellow bird is perched on a leafless tree branch against a clear blue sky.A bird is outside.A red bird.2
+A red convertible sports car is stopped in heavy traffic on a sunny afternoon.A vehicle is on the road.A red convertible.0
+A red convertible sports car is stopped in heavy traffic on a sunny afternoon.A vehicle is on the road.A blue truck.2
+An older man wearing a straw hat is fishing from a small wooden dock on a calm lake.A person is by the water.A man wearing a straw hat.0
+An older man wearing a straw hat is fishing from a small wooden dock on a calm lake.A person is by the water.A man wearing a winter cap.2
+A large brown bear is carefully walking across a fallen log over a rushing river.An animal is moving over an obstacle.A bear is near water.0
+A large brown bear is carefully walking across a fallen log over a rushing river.An animal is moving over an obstacle.A bear is running through a field.2
+A group of tourists are taking photographs of a historic monument on a cloudy day.People are documenting a landmark.The weather is not sunny.0
+A group of tourists are taking photographs of a historic monument on a cloudy day.People are documenting a landmark.The monument is brand new.2
+A scientist in a white lab coat is carefully pouring a blue liquid from a beaker into a test tube.A person is conducting an experiment.A person wearing protective gear.0
+A scientist in a white lab coat is carefully pouring a blue liquid from a beaker into a test tube.A person is conducting an experiment.A person pouring a red powder.2
+Two young children are sitting on the floor, building a tall tower out of colorful plastic blocks.Children playing.Kids building a structure.0
+Two young children are sitting on the floor, building a tall tower out of colorful plastic blocks.Children playing.Kids drawing in a book.2
+A man in a bright orange life vest is rowing a small wooden boat across a calm, reflective lake.A person is propelling a watercraft.A man is wearing safety equipment.0
+A man in a bright orange life vest is rowing a small wooden boat across a calm,reflective lake.A person is propelling a watercraft.The man is on a large cruise ship.2
+An elderly couple is sitting close together on a park bench, sharing a blanket and watching the sunset.Two people are resting outdoors.People are observing the sunset.0
+An elderly couple is sitting close together on a park bench, sharing a blanket and watching the sunset.Two people are resting outdoors.People are watching the sunrise.2
+A professional cyclist in a colorful jersey is racing up a steep mountain road.A person riding a bicycle.,A cyclist on an incline.0
+A professional cyclist in a colorful jersey is racing up a steep mountain road.A person riding a bicycle.,A cyclist on a flat track.2
+A scuba diver is kneeling on the ocean floor, examining a piece of bright red coral.A person is underwater.A diver looking at a coral.0
+A scuba diver is kneeling on the ocean floor, examining a piece of bright red coral.A person is underwater.A diver swimming with dolphins.2
+A busy chef is quickly garnishing a plate of steak with fresh parsley under a hot kitchen lamp.A cook is finishing a dish.A dish containing meat.0
+A busy chef is quickly garnishing a plate of steak with fresh parsley under a hot kitchen lamp.A cook is finishing a dish.A vegetarian salad.2
+A high school student is writing equations on a large whiteboard with a black marker.A person is using a writing utensil.A person writing mathematical equations.0
+A high school student is writing equations on a large whiteboard with a black marker.A person is using a writing utensil.A person drawing a portrait.2
+An elderly woman is carefully tending to her potted plants on a sunny balcony.A person is taking care of plants.A person on a balcony.0
+An elderly woman is carefully tending to her potted plants on a sunny balcony.A person is taking care of plants.A person in a dark basement.2
+A woman wearing headphones is sitting at a wooden desk, typing rapidly on a laptop.A person using a computer.A person listening to something.0
+A woman wearing headphones is sitting at a wooden desk, typing rapidly on a laptop.A person using a computer.A person asleep at the desk.2
+A hiker with a large red backpack is consulting a map at a fork in a wooded trail.A person is outdoors.A person reading a map.0
+A hiker with a large red backpack is consulting a map at a fork in a wooded trail.A person is outdoors.A person swimming in a lake.2
+A street performer is playing a saxophone on a busy city corner, with an open case for tips at his feet.A musician is performing in public.A musician playing a brass instrument.0
+A street performer is playing a saxophone on a busy city corner, with an open case for tips at his feet.A musician is performing in public.A musician playing guitar.2
+A chef is meticulously arranging slices of raw fish on a bed of rice to make sushi.A person preparing a meal.A meal containing raw fish.0
+A chef is meticulously arranging slices of raw fish on a bed of rice to make sushi.A person preparing a meal.A meal containing a steak.2
+An elderly man in a straw hat is patiently fishing from a folding chair on a riverbank.A person is sitting by the water.A person attempting to catch fish.0
+An elderly man in a straw hat is patiently fishing from a folding chair on a riverbank.A person is sitting by the water.A person reading a newspaper.2
+A scientist is peering into a microscope in a brightly lit laboratory, adjusting the focus knob.A person in a lab.A person using a microscope.0
+A scientist is peering into a microscope in a brightly lit laboratory, adjusting the focus knob.A person in a lab.A person taking notes.2
+A basketball player in a blue uniform is dribbling the ball quickly down the court.An athlete playing a game.An athlete wearing a blue uniform.0
+A basketball player in a blue uniform is dribbling the ball quickly down the court.An athlete playing a game.An athlete wearing a white uniform.2
+Several people are huddled under a small bus stop shelter during a sudden, heavy downpour.,People are taking cover from the weather.It is raining heavily.0
+Several people are huddled under a small bus stop shelter during a sudden, heavy downpour.,People are taking cover from the weather.The weather is bright and sunny.2
+A woman in a bright yellow dress is walking her small white poodle in a park.A person walking a dog.A person wearing a yellow dress.0
+A woman in a bright yellow dress is walking her small white poodle in a park.A person walking a dog.A person wearing blue jeans.2
+A young boy is sitting at a wooden desk, writing in a spiral notebook with a blue pen.A child writing.A child using a blue pen.0
+A young boy is sitting at a wooden desk, writing in a spiral notebook with a blue pen.A child writing.A child using a red pencil.2
+Two chefs in tall white hats are chopping vegetables on a stainless steel counter.People preparing food.People wearing white hats.0
+Two chefs in tall white hats are chopping vegetables on a stainless steel counter.People preparing food.People wearing black baseball caps.2
+Two men wearing baseball caps are chopping vegetables on a stainless steel counter.People preparing food.People wearing baseball caps.0
+Two men wearing baseball caps are chopping vegetables on a stainless steel counter.People preparing food.People wearing black hats.2
+A woman with curly red hair is painting a landscape on a canvas set up on an easel.A person is creating art.A woman with red hair.0
+A woman with curly red hair is painting a landscape on a canvas set up on an easel.A person is creating art.A woman with straight black hair.2
+A man wearing camouflage is sitting in a tree stand, holding a bow.A person in a tree.A person holding a bow.0
+A man wearing camouflage is sitting in a tree stand, holding a bow.A person in a tree.A person holding a rifle.2
+A large yellow sunflower is blooming in a garden.A flower is growing.The flower is yellow.0
+A large yellow sunflower is blooming in a garden.A flower is growing.The flower is purple.2
+Two black dogs are playing fetch on a lawn.Animals are playing.There are two dogs.0
+Two black dogs are playing fetch on a lawn.Animals are playing.There is one dog.2
+A man is sitting on a wooden park bench.A person is resting.The man is sitting.0
+A man is sitting on a wooden park bench.A person is resting.The man is standing.2
+A child in a blue raincoat is jumping in a puddle.A person is outside.The child is wearing a raincoat.0
+A child in a blue raincoat is jumping in a puddle.A person is outside.The child is wearing a t-shirt.2
+A gray squirrel is climbing up a tall oak tree.An animal is moving.The squirrel is climbing.0
+A gray squirrel is climbing up a tall oak tree.An animal is moving.The squirrel is sleeping.2
+A white plate holds a slice of chocolate cake.There is food on a dish.The plate is white.0
+A white plate holds a slice of chocolate cake.There is food on a dish.The plate is black.2
+A woman is opening a large blue umbrella.A person is holding an object.The woman is opening the umbrella.0
+A woman is opening a large blue umbrella.A person is holding an object.The woman is closing the umbrella.2
+A red bicycle is leaning against a brick wall.A vehicle is next to a wall.The bicycle is red.0
+A red bicycle is leaning against a brick wall.A vehicle is next to a wall.The bicycle is green.2
+A man in a blue chair is reading a large newspaper.A person is reading.The man is in a chair.0
+A man in a blue chair is reading a large newspaper.A person is reading.The man is standing up.2
+A sleek black cat is walking slowly on a red tile roof.An animal is on a roof.The cat is black.0
+A sleek black cat is walking slowly on a red tile roof.An animal is on a roof.The cat is white.2
+Three red cars are driving across a long bridge.Vehicles are on a bridge.There are three cars.0
+Three red cars are driving across a long bridge.Vehicles are on a bridge.There are five cars.2
+A young boy is flying a colorful diamond-shaped kite.A person is holding a kite.The kite is diamond-shaped.0
+A young boy is flying a colorful diamond-shaped kite.A person is holding a kite.The kite is box-shaped.2
+A small baby is sleeping peacefully in a white crib.A person is resting.The baby is sleeping.0
+A small baby is sleeping peacefully in a white crib.A person is resting.The baby is crying.2
+A long silver train is stopped at an empty station platform.A vehicle is at a station.The train is stopped.0
+A long silver train is stopped at an empty station platform.A vehicle is at a station.The train is moving.2
+A blue coffee mug is sitting on a wooden table.An object is on a table.The mug is blue.0
+A blue coffee mug is sitting on a wooden table.An object is on a table.The mug is red.2
+A large round clock is hanging on a white wall.An object is on a wall.The clock is round.0
+A large round clock is hanging on a white wall.An object is on a wall.The clock is square.2
+A child is building a tower with red and blue blocks.A person is playing.The blocks are red and blue.0
+A child is building a tower with red and blue blocks.A person is playing.The blocks are green and yellow.2
+A small white sailboat is on the calm ocean.A boat is in the water.The boat is a sailboat.0
+A small white sailboat is on the calm ocean.A boat is in the water.The boat is a rowboat.2
+A man is running quickly on a gray treadmill.A person is exercising.A man running.0
+A man is running quickly on a gray treadmill.A person is exercising.A man walking slowly.2
+Two tall giraffes are eating leaves from a high branch.Animals are eating.There are two giraffes.0
+Two tall giraffes are eating leaves from a high branch.Animals are eating.There is one giraffe.2
+A brown dog is sleeping on a plush blue rug.An animal is resting.The dog is on the rug.0
+A brown dog is sleeping on a plush blue rug.An animal is resting.The dog is in a box.2
+A glass vase is filled with three red roses.A container holds flowers.There are three roses.0
+A glass vase is filled with three red roses.A container holds flowers.There are five roses.2
+A large brown bear is standing in a shallow river.An animal is in the water.A bear standing.0
+A large brown bear is standing in ashallow river.An animal is in the water.A bear sleeping.2
+A set of keys is hanging from a metal hook on the wall.An object is hanging.The keys are on a hook.0
+A set of keys is hanging from a metal hook on the wall.An object is hanging.The keys are on the floor.2
+A small white boat is sailing on a blue lake.A vehicle is on the water.A white boat.0
+A small white boat is sailing on a blue lake.A vehicle is on the water.A black boat.2
+Three children are playing soccer in a grassy field.People are playing a sport.There are three children.0
+Three children are playing soccer in a grassy field.People are playing a sport.There are only two children.2
+A tall glass building reflects the blue sky.There is a building.The building is made of glass.0
+A tall glass building reflects the blue sky.There is a building.The building is made of brick.2
+A man is sitting at a desk and writing in a notebook.A person is at a desk.A man writing.0
+A man is sitting at a desk and writing in a notebook.A person is at a desk.A man typing on a computer.2
+A brown horse is standing in a green field next to a white fence.An animal is in a field.The animal is standing next to a fence.0
+A brown horse is standing in a green field next to a white fence.An animal is in a field.The animal is jumping over the fence.2
+A small child is sitting on the floor, pushing a red toy car.A child is playing with a toy.The toy is a red car.0
+A small child is sitting on the floor, pushing a red toy car.A child is playing with a toy.The toy is a blue airplane.2
+A silver laptop is open on a desk next to a white coffee mug.A laptop is on a desk.A coffee mug is next to the laptop.0
+A silver laptop is open on a desk next to a white coffee mug.A laptop is on a desk.The laptop is closed.2
+A man is wearing a red jacket and standing at a bus stop.A person is wearing a jacket.The person is standing.0
+A man is wearing a red jacket and standing at a bus stop.A person is wearing a jacket.The person is sitting.2
+A gray cat is sleeping on the top cushion of a brown sofa.An animal is on a sofa.The animal is on the top cushion.0
+A gray cat is sleeping on the top cushion of a brown sofa.An animal is on a sofa.The animal is under the sofa.2
+Two children are eating apples under a large tree.People are eating fruit.They are sitting under a tree.0
+Two children are eating apples under a large tree.People are eating fruit.They are eating oranges.2
+A person is drawing a picture of a house with a blue crayon.A person is using a crayon.The crayon is blue.0
+A person is drawing a picture of a house with a blue crayon.A person is using a crayon.The crayon is red.2
+A plate of three cookies is on the center of a round table.Food is on a table.There are three cookies on the plate.0
+A plate of three cookies is on the center of a round table.Food is on a table.There are five cookies on the plate.2
+A mechanic is lying underneath a car changing the oil.A person is fixing a vehicle.The person is under the car.0
+A mechanic is lying underneath a car changing the oil.A person is fixing a vehicle.The person is sitting inside the car.2
+A woman is painting a wooden fence with white paint.A person is painting.The paint color is white.0
+A woman is painting a wooden fence with white paint.A person is painting.The paint color is blue.2
+A young boy is eating a crisp green apple.A child is eating fruit.The fruit is green.0
+A young boy is eating a crisp green apple.A child is eating fruit.The fruit is a banana.2
+A girl is riding a brown horse through a field.A person is riding an animal.The animal is a horse.0
+A girl is riding a brown horse through a field.A person is riding an animal.The animal is a camel.2
+A man is writing a letter using a blue ballpoint pen.A person is writing.The person is using a pen.0
+A man is writing a letter using a blue ballpoint pen.A person is writing.The person is typing on a keyboard.2
+People are dancing in the street during a heavy rainstorm.A group is dancing outside.The weather is wet.0
+People are dancing in the street during a heavy rainstorm.A group is dancing outside.The weather is sunny and dry.2
+A dog is barking loudly at a squirrel in a tree.An animal is making noise.The animal is barking.0
+A dog is barking loudly at a squirrel in a tree.An animal is making noise.The animal is sleeping silently.2
+A high-speed train is entering a dark tunnel.A train is in motion.It is going into a tunnel.0
+A high-speed train is entering a dark tunnel.A train is in motion.It is arriving at a station platform.2
+A chef is tossing a fresh green salad in a bowl.A person is preparing food.The food is vegetables.0
+A chef is tossing a fresh green salad in a bowl.A person is preparing food.The food is a steak.2
+A baby is sleeping soundly in a white crib.A child is resting.The child is asleep.0
+A baby is sleeping soundly in a white crib.A child is resting.The child is awake and playing.2
+A woman is jogging on a treadmill at the gym.A person is exercising indoors.The person is running.0
+A woman is jogging on a treadmill at the gym.A person is exercising indoors.The person is swimming.2
+A construction worker is drilling a hole into concrete.A person is using power tools.The person is drilling.0
+A construction worker is drilling a hole into concrete.A person is using power tools.The person is sawing wood.2
+A cat is chasing a red laser dot across the floor.An animal is playing.The animal is moving quickly.0
+A cat is chasing a red laser dot across the floor.An animal is playing.The animal is lying still.2
+A waiter is carrying a tray full of drinks to a table.A person is working in a restaurant.The person is holding a tray.0
+A waiter is carrying a tray full of drinks to a table.A person is working in a restaurant.The person is washing dishes.2
+A hiker is looking at a paper map on a mountain trail.A person is navigating.The person is using a map.0
+A hiker is looking at a paper map on a mountain trail.A person is navigating.The person is looking at a GPS screen.2
+A boy is flying a colorful kite on a windy beach.A child is playing outdoors.The toy is in the air.0
+A boy is flying a colorful kite on a windy beach.A child is playing outdoors.The toy is on the ground.2
+A student is reading a hardcover textbook in the library.A person is studying.The person is holding a book.0
+A student is reading a hardcover textbook in the library.A person is studying.The person is staring at a tablet.2
+A baker is putting a tray of muffins into the oven.A person is baking.The food is going into heat.0
+A baker is putting a tray of muffins into the oven.A person is baking.The food is being taken out of the fridge.2
+A police officer is directing traffic at a busy intersection.A person is working on the street.The person is standing.0
+A police officer is directing traffic at a busy intersection.A person is working on the street.The person is sitting in a car.2
+A girl is brushing her long hair in front of a mirror.A person is grooming.The person is holding a brush.0
+A girl is brushing her long hair in front of a mirror.A person is grooming.The person is washing their face.2
+A photographer is taking a picture of a sunset with a camera.A person is capturing an image.The person is using a camera.0
+A photographer is taking a picture of a sunset with a camera.A person is capturing an image.The person is painting a picture.2
+A man is shaving his beard with an electric razor.A person is grooming.The tool is electric.0
+A man is shaving his beard with an electric razor.A person is grooming.The tool is a manual blade.2
+A customer is paying for groceries with a credit card.A person is making a transaction.The payment method is a card.0
+A customer is paying for groceries with a credit card.A person is making a transaction.The payment method is cash.2
+A bird is building a nest with twigs in a tree.An animal is working.The animal is holding a twig.0
+A bird is building a nest with twigs in a tree.An animal is working.The animal is eating a worm.2
+A pilot is flying a plane above the clouds.A person is operating a vehicle.The vehicle is in the sky.0
+A pilot is flying a plane above the clouds.A person is operating a vehicle.The vehicle is on a runway.2
+A woman is slicing a loaf of bread with a serrated knife.A person is preparing food.The person is using a knife.0
+A woman is slicing a loaf of bread with a serrated knife.A person is preparing food.The person is using a spoon.2
+Three apples are sitting in a wooden bowl.Fruit is on the table.There are multiple apples.0
+Three apples are sitting in a wooden bowl.Fruit is on the table.There is only one apple.2
+A boy is throwing a frisbee to his friend.Children are playing a game.The frisbee is flying through the air.0
+A boy is throwing a frisbee to his friend.Children are playing a game.The firsbee is rolling on the ground.2
+A woman is drinking water from a clear glass bottle.A person is hydrating.The container is made of glass.0
+A woman is drinking water from a clear glass bottle.A person is hydrating.The container is made of metal.2
+A car is stopped at a red traffic light.A vehicle is on the road.The car is not moving.0
+A car is stopped at a red traffic light.A vehicle is on the road.The car is driving fast.2
+A man is planting a small tree in his backyard.A person is gardening.The person is putting a plant in the ground.0
+A man is planting a small tree in his backyard.A person is gardening.The person is chopping a tree down.2
+A baby is crawling across a carpeted floor.A child is moving.The child is on hands and knees.0
+A baby is crawling across a carpeted floor.A child is moving.The child is walking upright.2
+A man is looking at a painting in an art gallery.A person is viewing art.The person is indoors.0
+A man is looking at a painting in an art gallery.A person is viewing art.The person is outside.2
+A construction worker is wearing a bright orange vest.A person is wearing safety gear.The vest is orange.0
+A construction worker is wearing a bright orange vest.A person is wearing safety gear.The vest is blue.2
+A brown dog is leaping into the air to catch a red frisbee.An animal is playing.The dog is off the ground.0
+A brown dog is leaping into the air to catch a red frisbee.An animal is playing.The dog is lying on the grass.2
+A woman in a grey suit is typing on a laptop at a glass desk.A professional is working.She is using a computer.0
+A woman in a grey suit is typing on a laptop at a glass desk.A professional is working.She is writing on paper.2
+Two boys in green jerseys are kicking a soccer ball on a grassy field.Children are playing a sport.They are outdoors.0
+Two boys in green jerseys are kicking a soccer ball on a grassy field.Children are playing a sport.They are inside a gym.2
+A street performer is playing an acoustic guitar on a busy sidewalk.A musician is performing.The instrument has strings.0
+A street performer is playing an acoustic guitar on a busy sidewalk.A musician is performing.The instrument is a flute.2
+A child in a blue snowsuit is making a snowman in the front yard.A kid is playing in the snow.The child is wearing warm clothing.0
+A child in a blue snowsuit is making a snowman in the front yard.A kid is playing in the snow.The child is wearing a swimsuit.2
+A hiker with a backpack is walking up a rocky mountain path.A person is hiking.The terrain is rough.0
+A hiker with a backpack is walking up a rocky mountain path.A person is hiking.The path is paved and flat.2
+An elderly woman is reading a hardcover book in a rocking chair.A person is reading.She is sitting down.0 
+An elderly woman is reading a hardcover book in a rocking chair.A person is reading.She is standing up.2
+A surfer in a black wetsuit is riding a large wave.A person is in the ocean.The person is standing on a board.0
+A surfer in a black wetsuit is riding a large wave.A person is in the ocean.The person is sitting in a boat.2
+A woman is applying red lipstick in front of a bathroom mirror.A person is putting on makeup.The makeup is for the lips.0
+A woman is applying red lipstick in front of a bathroom mirror.A person is putting on makeup.The makeup is for the eyes.2
+A chef is grilling a steak on a hot barbecue.A person is cooking meat.The food is over a fire.0
+A chef is grilling a steak on a hot barbecue.A person is cooking meat.The food is inside a freezer.2
