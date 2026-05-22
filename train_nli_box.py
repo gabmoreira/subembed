@@ -14,7 +14,7 @@ from typing import Dict, Any
 
 from subspaces import *
 from data import SNLI
-from model import TransformerSubspaceEmbedder
+from model import BoxTransformerClassifier
 
 logging.basicConfig(
     level=logging.INFO,  # INFO for training, DEBUG if debugging internals
@@ -32,9 +32,7 @@ class NLITrainingData:
     pretrained: Optional[str] = None
     max_length: Optional[int] = None
     two_way: Optional[bool] = None
-    N: Optional[int] = None # Num vectors per node
-    D: Optional[int] = None # Embedding dimension
-    lbd: Optional[float] = None # Regularization
+    box_dim: Optional[int] = None
     label_smoothing: Optional[float] = None # Label Smoothing
     batch_size: Optional[int] = None # Batch size
     lr: Optional[float] = None
@@ -58,13 +56,11 @@ class NLITrainingData:
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train subspace transformer model.")
-    parser.add_argument("--base_model_name", type=str, required=True, help="Base transformer model e.g., sentence-transformers/all-MiniLM-L6-v2 , sentence-transformers/all-mpnet-base-v2")
+    parser.add_argument("--base_model_name", type=str, required=True, help="Base transformer model e.g., sentence-transformers/all-MiniLM-L6-v2 , sentence-transformers/all-mpnet-base-v2") 
     parser.add_argument("--pretrained", type=str, default="", help="Pretrained model name.")
     parser.add_argument("--max_length", type=int, default=35, help="Maximum sequence length.")
+    parser.add_argument("--box_dim", default=128, type=int, help="Box dim.")
     parser.add_argument("--two_way", action="store_true", help="Two-way (entail vs non-entail).")
-    parser.add_argument("--N", type=int, default=128, help="Number of vectors per node.")
-    parser.add_argument("--D", type=int, default=128, help="Ambient space dimension.")
-    parser.add_argument("--lbd", type=float, default=0.05, help="Regularization parameter λ.")
     parser.add_argument("--batch_size", type=int, default=1024, help="Batch size for training.")
     parser.add_argument("--label_smoothing", type=float, default=0.1, help="Label smoothing.")
     parser.add_argument("--lr", type=float, default=1e-4, help="Learning rate.")
@@ -81,27 +77,25 @@ if __name__ == "__main__":
     args_dict = {k: v for k, v in vars(args).items() if k in field_names}
     config = NLITrainingData(**args_dict)
 
-    torch.manual_seed(args.seed)
-    torch.cuda.manual_seed(args.seed)
-    torch.cuda.manual_seed_all(args.seed)
+    torch.manual_seed(config.seed)
+    torch.cuda.manual_seed(config.seed)
+    torch.cuda.manual_seed_all(config.seed)
 
     device = args.device
     num_workers = 8
+    difference = True
     enable_autocast = True
 
-    save_to = f"./nli_models/{config.base_model_name.split('/')[1]}_" \
-              f"{config.N}x{config.D}_lbd{config.lbd}_" \
+    prefix = f"box{config.box_dim}d"
+    save_to = f"./nli_models/{prefix}_{config.base_model_name.split('/')[1]}_" \
               f"context{config.max_length}_seed{config.seed}" \
               f"{'_2way' if config.two_way else ''}" \
               f"{'_benchmark' if args.benchmark else ''}"
     Path(save_to).mkdir(parents=True, exist_ok=True)
 
-    model = TransformerSubspaceEmbedder(
+    model = BoxTransformerClassifier(
         base_model_name=config.base_model_name,
-        N=config.N,
-        D=config.D,
-        lbd=config.lbd,
-        two_way=config.two_way,
+        box_dim=config.box_dim,
         cache_dir=CACHE_DIR,
     )
     model.to(device)
@@ -123,7 +117,7 @@ if __name__ == "__main__":
         num_workers=num_workers,
         persistent_workers=(num_workers > 0),
     )
-
+    
     val_loader = DataLoader(
         val_dataset,
         batch_size=config.batch_size,
@@ -133,7 +127,7 @@ if __name__ == "__main__":
         num_workers=num_workers,
         persistent_workers=(num_workers > 0),
     )
-
+    
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.lr, weight_decay=config.weight_decay)
     scheduler = ExponentialLR(optimizer, gamma=0.9)
     scaler = torch.amp.GradScaler("cuda", enabled=enable_autocast)
@@ -142,11 +136,11 @@ if __name__ == "__main__":
 
     num_train_steps = 0
     for epoch in range(config.epochs):
-        model.train()
         if args.benchmark:
             torch.cuda.synchronize()
             torch.cuda.reset_peak_memory_stats()
             epoch_start = time.time()
+        model.train()
         pbar = tqdm(train_loader, desc=f"Epoch {epoch+1}")
         for enc_pre, enc_hyp, targets in pbar:
             for k in enc_pre:
@@ -155,23 +149,20 @@ if __name__ == "__main__":
             targets = targets.to(device)
 
             with torch.autocast(device_type=device, dtype=torch.float16, enabled=enable_autocast):                
-                x_pre = model.forward_backbone(**enc_pre)
-                x_hyp = model.forward_backbone(**enc_hyp)
+                x_pre = model(**enc_pre)
+                x_hyp = model(**enc_hyp)
 
-            P_pre = model.to_projection(x_pre.to(torch.float32))  # (B, D, D)
-            P_hyp = model.to_projection(x_hyp.to(torch.float32))  # (B, D, D)
-
-            logits, loss = model.classify(P_pre, P_hyp, targets, config.label_smoothing)
+            logits, loss = model.classify(x_pre, x_hyp, targets, config.label_smoothing)
             scaler.scale(loss).backward()
 
             scaler.step(optimizer)
             scaler.update()
             optimizer.zero_grad()
-            
+
             with torch.no_grad():
                 acc = (logits.argmax(dim=-1) == targets).float().mean()
 
-            pbar.set_postfix(train_loss=loss.item(), train_acc=acc.item(), lr=f"{scheduler.get_lr()[0]:.6f}")
+            pbar.set_postfix(loss=loss.item(), acc=acc.item(), lr=f"{scheduler.get_lr()[0]:.6f}")
             
             if num_train_steps % 20 == 0:
                 writer.add_scalar('train/loss', loss.item(), num_train_steps)
@@ -187,18 +178,19 @@ if __name__ == "__main__":
             peak_memory = torch.cuda.max_memory_allocated() / 1024**2
             print(f"Peak GPU memory usage: {peak_memory:.2f} MB")
 
+        # ------ EVAL ------
         model.eval()
         logits, labels = [], []
         for enc_pre, enc_hyp, targets in val_loader:
-            targets = targets.to(device)
             for k in enc_pre:
                 enc_pre[k] = enc_pre[k].to(device)
                 enc_hyp[k] = enc_hyp[k].to(device)
-            
+            targets = targets.to(device)
+
             with torch.no_grad():
-                P_pre = model(**enc_pre)
-                P_hyp = model(**enc_hyp)
-                logits_ = model.classify(P_pre, P_hyp)
+                x_pre = model(**enc_pre)
+                x_hyp = model(**enc_hyp)
+                logits_ = model.classify(x_pre, x_hyp)
                 logits.append(logits_)
                 labels.append(targets)
 

@@ -25,7 +25,7 @@ class Reconstruction(Dataset):
         self.closure = nx.transitive_closure(graph)
         self.nodes = list(self.closure.nodes())
         self.positive_edges = list(self.closure.edges())
-            
+        
         logger.info(f"Graph nodes: {len(self.graph.nodes())}, edges: {len(self.graph.edges())}")
         logger.info(f"Full closure nodes: {len(self.closure.nodes())}, edges: {len(self.closure.edges())}")
 
@@ -57,38 +57,29 @@ class Reconstruction(Dataset):
     def __len__(self):
         return len(self.positive_edges)
 
-    def __getitem__(self, idx):
-        if self.split == "train":
-            return self.__getitem_train__(idx)
-        else:
-            return self.__getitem_eval__(idx)
+    def _sample_negatives(self, pos_set, count):
+        negs = []
+        seen = set()
+        max_idx = len(self.nodes) - 1
+        while len(negs) < count:
+            candidate = random.randint(0, max_idx)
+            if candidate not in pos_set and candidate not in seen:
+                seen.add(candidate)
+                negs.append(candidate)
+        return negs
 
-    def __getitem_train__(self, idx):
+    def __getitem__(self, idx):
         src, tgt = self.positive_edges[idx]
         anchor = self.node_to_idx[src]
         positive = [self.node_to_idx[tgt]]
 
         pos_set = self.all_neighbors[anchor]
-        neg_pool = list(self.total_indices - pos_set)
+        neg_pool = None
 
         if self.group_size is not None:
-            negatives = random.sample(neg_pool, self.group_size - 1)
+            negatives = self._sample_negatives(pos_set, self.group_size - 1)
         else:
-            negatives = neg_pool
-        posnegs = positive + negatives
-        return anchor, posnegs
-
-    def __getitem_eval__(self, idx):
-        src, tgt = self.positive_edges[idx]
-        anchor = self.node_to_idx[src]
-        positive = [self.node_to_idx[tgt]]
-
-        pos_set = self.all_out_neighbors[anchor]
-        neg_pool = list(self.total_indices - pos_set)
-
-        if self.group_size is not None:
-            negatives = random.sample(neg_pool, self.group_size - 1)
-        else:
+            neg_pool = list(self.total_indices - pos_set)
             negatives = neg_pool
         posnegs = positive + negatives
         return anchor, posnegs

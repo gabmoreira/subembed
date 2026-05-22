@@ -115,7 +115,8 @@ class Compressor(object):
             S = self.s[i]
             Vh = self.vh[i]
 
-            mask = (torch.cumsum(S,-1) / S.sum()) <= threshold
+            #mask = (torch.cumsum(S,-1) / S.sum()) <= threshold
+            mask = S >= threshold
 
             if mask.sum() == 0:
                 mask[0] = True

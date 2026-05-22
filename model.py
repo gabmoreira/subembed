@@ -16,7 +16,7 @@ def bound(a: Tensor, min: float, max: float) -> Tensor:
     return min + torch.sigmoid(a) * (max - min)
 
 def make_mlp(in_dim: int, hidden1: int, hidden2: int, out_dim: int) -> nn.Module:
-    """Factory function for MLP blocks with GELU + BatchNorm."""
+    """Factory function for MLP blocks"""
     return nn.Sequential(
         nn.Linear(in_dim, hidden1),
         nn.GELU(),
@@ -66,6 +66,7 @@ class TransformerSubspaceEmbedder(nn.Module):
         self.hidden_dim = self.base_model.config.hidden_size
 
         self.query = nn.Parameter(torch.randn(N, self.hidden_dim))
+
         self.attn = nn.MultiheadAttention(embed_dim=self.hidden_dim, num_heads=8, batch_first=True)
         self.mlp = nn.Sequential(
             nn.Linear(self.hidden_dim, self.hidden_dim),
@@ -104,6 +105,26 @@ class TransformerSubspaceEmbedder(nn.Module):
         proj = self.to_projection(x)
         return proj
 
+    def forward_base_model(self, input_ids: Tensor, attention_mask: Tensor, **kwargs) -> Tensor:
+        outputs = self.base_model(
+            input_ids=input_ids,
+            attention_mask=attention_mask,
+            output_hidden_states=True
+        )
+        layers = outputs.hidden_states[-3:]
+        hidden_state = torch.cat(layers, dim=1)
+        return hidden_state
+    
+    def forward_attention(self, hidden_state: Tensor) -> Tensor:
+        B = hidden_state.shape[0]
+
+        # (B, N, base_model_dim)
+        query = self.query.unsqueeze(0).expand(B, -1, -1)  
+
+        # (B, N, base_model_dim)
+        x, _ = self.attn(query=query, key=hidden_state, value=hidden_state)  
+        return x
+        
     def forward_backbone(self, input_ids: Tensor, attention_mask: Tensor, **kwargs) -> Tensor:
         """
         Compute backbone transformer output and map it to intermediate features.
@@ -123,6 +144,7 @@ class TransformerSubspaceEmbedder(nn.Module):
         layers = outputs.hidden_states[-3:]
         hidden_state = torch.cat(layers, dim=1)
         B = hidden_state.shape[0]
+
         # (B, N, base_model_dim)
         query = self.query.unsqueeze(0).expand(B, -1, -1)  
         # (B, N, base_model_dim)
@@ -149,7 +171,7 @@ class TransformerSubspaceEmbedder(nn.Module):
         P_premise: Tensor,
         P_hypothesis: Tensor,
         targets: Optional[Tensor] = None,
-        smoothing: float = 0.1,
+        smoothing: Optional[float] = 0.0,
     ) -> Union[Tensor, Tuple[Tensor, Tensor]]:
         """
         Classify premise-hypothesis pairs using either 2-way or 3-way method.
@@ -173,7 +195,7 @@ class TransformerSubspaceEmbedder(nn.Module):
         P_premise: Tensor,
         P_hypothesis: Tensor,
         targets: Optional[Tensor] = None,
-        smoothing: float = 0.1,
+        smoothing: Optional[float] = 0.0,
     ) -> Union[Tensor, Tuple[Tensor, Tensor]]:
         """
         3-way classification (entailment, neutral, contradiction).
@@ -221,7 +243,7 @@ class TransformerSubspaceEmbedder(nn.Module):
         P_premise: Tensor,
         P_hypothesis: Tensor,
         targets: Optional[Tensor] = None,
-        smoothing: float = 0.1,
+        smoothing: Optional[float] = 0.0,
     ) -> Union[Tensor, Tuple[Tensor, Tensor]]:
         """
         2-way classification (entailment, non-entailment).
@@ -265,7 +287,7 @@ class TransformerSubspaceEmbedder(nn.Module):
         device: Union[torch.device, str],
     ) -> Tensor:
         """
-        Encode raw text into smooth subspace projector.
+        Encode raw text into smoot subspace projector.
 
         Args:
             text (List[str]): List of input sentences.
@@ -286,3 +308,172 @@ class TransformerSubspaceEmbedder(nn.Module):
             tokens[k] = tokens[k].to(device)
         P = self.forward(**tokens)
         return P
+    
+class TransformerClassifier(nn.Module):
+    def __init__(
+        self,
+        base_model_name: str,
+        difference: bool,
+        two_way: bool, 
+        cache_dir: str,
+    ) -> None:
+        super().__init__()
+        self.difference = difference
+
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            base_model_name,
+            cache_dir=cache_dir
+        )
+        self.base_model = AutoModel.from_pretrained(
+            base_model_name,
+            cache_dir=cache_dir,
+            output_hidden_states=True
+        )
+        self.hidden_dim = self.base_model.config.hidden_size
+
+        out_dim = 2 if two_way else 3
+        self.mlp = nn.Sequential(
+            nn.Linear(self.hidden_dim * (2 + int(self.difference)), self.hidden_dim),
+            nn.LeakyReLU(),
+            nn.Linear(self.hidden_dim, self.hidden_dim),
+            nn.LeakyReLU(),
+            nn.Linear(self.hidden_dim, out_dim),
+        )
+
+    def forward(self, input_ids: Tensor, attention_mask: Tensor, **kwargs) -> Tensor:
+        outputs = self.base_model(
+            input_ids=input_ids,
+            attention_mask=attention_mask,
+            output_hidden_states=True
+        )
+        x = outputs.last_hidden_state.mean(1)  # (B, hidden_dim)
+        return x
+
+    def classify(
+        self,
+        x: Tensor,
+        y: Tensor,
+        targets: Optional[Tensor] = None,
+        smoothing: Optional[float] = 0.1,
+    ) -> Union[Tensor, Tuple[Tensor, Tensor]]:
+        if self.difference:
+            logits = self.mlp(torch.cat((x, y, x - y), dim=-1))
+        else:
+            logits = self.mlp(torch.cat((x, y), dim=-1))
+
+        if targets is not None:
+            loss = F.cross_entropy(logits, targets, label_smoothing=smoothing)
+            return logits, loss   
+        else:
+            return logits
+        
+    @torch.no_grad()
+    def encode(
+        self,
+        text: List[str],
+        max_length: int,
+        device: Union[torch.device, str],
+    ) -> Tensor:
+        tokens = self.tokenizer(
+            text,
+            return_tensors='pt',
+            padding="max_length",
+            max_length=max_length,
+            truncation=True
+        )
+        for k in tokens:
+            tokens[k] = tokens[k].to(device)
+        P = self.forward(**tokens)
+        return P
+
+class BoxTransformerClassifier(nn.Module):
+    def __init__(self, base_model_name, box_dim, cache_dir):
+        super().__init__()
+        self.eps = 1e-6
+        self.tokenizer = AutoTokenizer.from_pretrained(base_model_name, cache_dir=cache_dir)
+        self.base_model = AutoModel.from_pretrained(base_model_name, cache_dir=cache_dir)
+        self.hidden_dim = self.base_model.config.hidden_size
+        self.box_dim = box_dim
+
+        self.box_head = nn.Sequential(
+            nn.Linear(self.hidden_dim, self.hidden_dim),
+            nn.LeakyReLU(),
+            nn.Linear(self.hidden_dim, 2 * box_dim),
+        )
+
+        # Beta distribution parameters, same as subspace model
+        self.alpha_ent = nn.Parameter(torch.tensor(-1.0))
+        self.beta_ent = nn.Parameter(torch.tensor(-10.0))
+        self.alpha_con = nn.Parameter(torch.tensor(-10.0))
+        self.beta_con = nn.Parameter(torch.tensor(-1.0))
+
+    def _log_soft_volume(self, box_min, box_max, temp=1.0):
+        return torch.sum(
+            torch.log(F.softplus(box_max - box_min, beta=1.0/temp) + 1e-8),
+            dim=-1,
+        )
+
+    def containment(self, p_min, p_max, h_min, h_max):
+        """P(h|p) = vol(intersection) / vol(p), analogous to NIS."""
+        inter_min = torch.max(p_min, h_min)
+        inter_max = torch.min(p_max, h_max)
+        log_vol_inter = self._log_soft_volume(inter_min, inter_max)
+        log_vol_p = self._log_soft_volume(p_min, p_max)
+        return torch.exp(log_vol_inter - log_vol_p)
+
+    def forward(self, input_ids, attention_mask, **kwargs):
+        outputs = self.base_model(input_ids=input_ids, attention_mask=attention_mask)
+        pooled = outputs.last_hidden_state.mean(1)
+        box_params = self.box_head(pooled)
+        box_min = box_params[:, :self.box_dim]
+        box_max = box_min + F.softplus(box_params[:, self.box_dim:])
+        return torch.stack((box_min, box_max), dim=1)  # (B, 2, box_dim)
+
+    def classify(self, x, y, targets=None, smoothing=0.0):
+        p_min, p_max = x[:, 0], x[:, 1]  # (B, box_dim)
+        h_min, h_max = y[:, 0], y[:, 1]  # (B, box_dim)
+
+        score = self.containment(p_min, p_max, h_min, h_max)
+        s = torch.clamp(score ** 2, self.eps, 1 - self.eps)
+
+        ent_dist = Beta(bound(self.alpha_ent, 1, 20), bound(self.beta_ent, 1, 20))
+        con_dist = Beta(bound(self.alpha_con, 1, 20), bound(self.beta_con, 1, 20))
+
+        logits_e = ent_dist.log_prob(s)
+        logits_c = con_dist.log_prob(s)
+        logits = torch.stack((logits_e, logits_c), dim=-1)
+
+        if targets is not None:
+            loss = F.cross_entropy(logits, targets, label_smoothing=smoothing)
+            return logits, loss
+        return logits
+    
+    @torch.no_grad()
+    def encode(
+        self,
+        text: List[str],
+        max_length: int,
+        device: Union[torch.device, str],
+    ) -> Tensor:
+        """
+        Encode raw text into smoot subspace projector.
+
+        Args:
+            text (List[str]): List of input sentences.
+            max_length (int): Maximum token length for truncation/padding.
+            device (Union[torch.device, str]): Device to place tensors on.
+        
+        Returns:
+            Tensor: Smooth projector representations of the input texts.
+        """
+        tokens = self.tokenizer(
+            text,
+            return_tensors='pt',
+            padding="max_length",
+            max_length=max_length,
+            truncation=True
+        )
+        for k in tokens:
+            tokens[k] = tokens[k].to(device)
+        x = self.forward(**tokens)
+        return x

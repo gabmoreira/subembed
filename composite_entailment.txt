@@ -1,4 +1,4 @@
-premise.hypothesis.update.label
+premise.hypothesis.hypothesis.label
 Two children are sitting on a red picnic blanket, eating sandwiches.People are eating.People sitting on a blanket.0
 Two children are sitting on a red picnic blanket, eating sandwiches.People are eating.People sitting sitting directly on the grass.2
 A runner in a blue singlet is crossing the finish line of a marathon.A person is finishing a race.A person is running.0

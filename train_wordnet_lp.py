@@ -1,6 +1,8 @@
 import sys
 import logging
 import argparse
+import random
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -34,6 +36,7 @@ class LinkPredictionData:
     Container for experiment configuration and model state.
     Saved/loaded as a Torch .pt dictionary for reproducibility.
     """
+    seed: Optional[int] = None
     root: Optional[str] = None
     closure: Optional[float] = None # Fraction of transitive closure edges
     node_to_idx: Optional[Dict[str, int]] = None
@@ -57,7 +60,7 @@ class LinkPredictionData:
     @staticmethod
     def load(path: str, map_location="cpu") -> "LinkPredictionData":
         """Load a saved configuration from disk."""
-        data = torch.load(path, map_location=map_location)
+        data = torch.load(path, map_location=map_location, weights_only=False)
         field_names = {f.name for f in fields(LinkPredictionData)}
         filtered_data = {k: v for k, v in data.items() if k in field_names}
         return LinkPredictionData(**filtered_data)
@@ -65,15 +68,16 @@ class LinkPredictionData:
 def parse_args():
     parser = argparse.ArgumentParser(description="Train graph embeddings for link prediction.")
     parser.add_argument("--dataset_path", type=str, required=True, help="Path to the Link Prediction dataset.")
-    parser.add_argument("--batch_size", type=int, default=128, help="Batch size for training.")
-    parser.add_argument("--epochs", type=int, default=200, help="Number of training epochs.")
-    parser.add_argument("--group_size", type=int, default=11, help="Number of positives + negatives per sample.")
     parser.add_argument("--closure", type=float, required=True, help="Fraction <= 1 of non-basic edges.")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed.")
+    parser.add_argument("--gamma_pos", type=float, default=0.8, help="Positive margin γ+.")
+    parser.add_argument("--gamma_neg", type=float, default=0.1, help="Negative margin γ−.")
+    parser.add_argument("--batch_size", type=int, default=128, help="Batch size for training.")
+    parser.add_argument("--epochs", type=int, default=500, help="Number of training epochs.")
+    parser.add_argument("--group_size", type=int, default=11, help="Number of positives + negatives per sample.")
     parser.add_argument("--N", type=int, default=128, help="Number of vectors per node.")
     parser.add_argument("--D", type=int, default=128, help="Ambient space dimension.")
     parser.add_argument("--lbd", type=float, default=0.2, help="Regularization parameter λ.")
-    parser.add_argument("--gamma_pos", type=float, default=0.8, help="Positive margin γ+.")
-    parser.add_argument("--gamma_neg", type=float, default=0.1, help="Negative margin γ−.")
     parser.add_argument("--std_init", type=float, default=1e-4, help="Std-dev for weight initialization.")
     parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate.")
     return parser.parse_args()
@@ -154,14 +158,19 @@ def train_one_epoch(
 
 def main():
     args = parse_args()
-    device = device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cuda:0" if torch.cuda.is_available() else "cpu"
     num_workers = 16
 
     field_names = {f.name for f in fields(LinkPredictionData)}
     args_dict = {k: v for k, v in vars(args).items() if k in field_names}
     emb_data = LinkPredictionData(**args_dict)
     
-    root_dir = f"./wordnet_embeddings/linkprediction_" \
+    random.seed(emb_data.seed)
+    np.random.seed(emb_data.seed)
+    torch.manual_seed(emb_data.seed)
+    torch.cuda.manual_seed(emb_data.seed)
+
+    root_dir = f"./wn_lp_embeddings/{emb_data.seed}_" \
                f"{int(100 * emb_data.closure)}_wordnet_" \
                f"subspace_{emb_data.N}x{emb_data.D}_{emb_data.lbd}_{emb_data.group_size}"
     Path(root_dir).mkdir(parents=True, exist_ok=True)

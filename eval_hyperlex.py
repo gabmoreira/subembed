@@ -20,14 +20,14 @@ logger = logging.getLogger(__name__)
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Evaluate WordNet embeddings on HyperLex.")
-    parser.add_argument("--embed_path", type=str, default="./", help="Path to embeddings file")
-    parser.add_argument("--hyperlex_path", type=str, default="./", help="Path to hyperlex hyperlex-nouns.txt file")
+    parser.add_argument("--embed-path", type=str, default="./", help="Path to embeddings file")
+    parser.add_argument("--hyperlex-path", type=str, default="./", help="Path to hyperlex hyperlex-nouns.txt file")
     parser.add_argument("--lbd", type=float, default=0.2, help="Regularization parameter λ")
     return parser.parse_args()
 
 def main():
     args = parse_args()
-    device = device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
 
     emb_data = ReconstructionData.load(args.embed_path)
 
