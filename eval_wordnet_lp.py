@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 EPS = 1e-6
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Evaluate link prediction model.")
+    parser = argparse.ArgumentParser(description="Evaluate WordNet link prediction.")
     parser.add_argument(
         "--device",
         type=str,
