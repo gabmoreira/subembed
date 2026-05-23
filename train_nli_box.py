@@ -24,8 +24,6 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-CACHE_DIR = "./.cache"
-
 @dataclass
 class NLITrainingData:
     base_model_name: Optional[str] = None
@@ -68,6 +66,7 @@ def parse_args():
     parser.add_argument("--epochs", type=int, default=12, help="Number of training epochs.")
     parser.add_argument("--seed", type=int, default=13, help="Random seed.")
     parser.add_argument("--benchmark", action="store_true", help="Set to benchmark time and memory.")
+    parser.add_argument("--cache-dir", type=str, default="./.cache/", help="Cache directory.")
     parser.add_argument("--device", type=str, default="cuda", help="Device.")
     return parser.parse_args()
 
@@ -96,7 +95,7 @@ if __name__ == "__main__":
     model = BoxTransformerClassifier(
         base_model_name=config.base_model_name,
         box_dim=config.box_dim,
-        cache_dir=CACHE_DIR,
+        cache_dir=args.cache_dir,
     )
     model.to(device)
     
@@ -105,8 +104,8 @@ if __name__ == "__main__":
         model.load_state_dict(loaded_data.state_dict, strict=False)
         logger.info(f"Loaded {config.pretrained}")
 
-    train_dataset = SNLI(max_length=config.max_length, split="train", two_way=config.two_way)
-    val_dataset = SNLI(max_length=config.max_length, split="validation", two_way=config.two_way)
+    train_dataset = SNLI(max_length=config.max_length, split="train", two_way=config.two_way, cache_dir=args.cache_dir)
+    val_dataset = SNLI(max_length=config.max_length, split="validation", two_way=config.two_way, cache_dir=args.cache_dir)
 
     train_loader = DataLoader(
         train_dataset,

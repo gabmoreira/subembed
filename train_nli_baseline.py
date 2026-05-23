@@ -24,8 +24,6 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-CACHE_DIR = "./.cache"
-
 @dataclass
 class NLITrainingData:
     base_model_name: Optional[str] = None
@@ -58,17 +56,18 @@ class NLITrainingData:
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train subspace transformer model.")
-    parser.add_argument("--base_model_name", type=str, required=True, help="Base transformer model e.g., sentence-transformers/all-MiniLM-L6-v2 , sentence-transformers/all-mpnet-base-v2") 
+    parser.add_argument("--base-model-name", type=str, required=True, help="Base transformer model e.g., sentence-transformers/all-MiniLM-L6-v2 , sentence-transformers/all-mpnet-base-v2") 
     parser.add_argument("--pretrained", type=str, default="", help="Pretrained model name.")
-    parser.add_argument("--max_length", type=int, default=35, help="Maximum sequence length.")
-    parser.add_argument("--two_way", action="store_true", help="Two-way (entail vs non-entail).")
-    parser.add_argument("--batch_size", type=int, default=1024, help="Batch size for training.")
-    parser.add_argument("--label_smoothing", type=float, default=0.1, help="Label smoothing.")
+    parser.add_argument("--max-length", type=int, default=35, help="Maximum sequence length.")
+    parser.add_argument("--two-way", action="store_true", help="Two-way (entail vs non-entail).")
+    parser.add_argument("--batch-size", type=int, default=1024, help="Batch size for training.")
+    parser.add_argument("--label-smoothing", type=float, default=0.1, help="Label smoothing.")
     parser.add_argument("--lr", type=float, default=1e-4, help="Learning rate.")
-    parser.add_argument("--weight_decay", type=float, default=0.0, help="Optimizer weight-decay.")
+    parser.add_argument("--weight-decay", type=float, default=0.0, help="Optimizer weight-decay.")
     parser.add_argument("--epochs", type=int, default=12, help="Number of training epochs.")
     parser.add_argument("--seed", type=int, default=13, help="Random seed.")
     parser.add_argument("--benchmark", action="store_true", help="Set to benchmark time and memory.")
+    parser.add_argument("--cache-dir", type=str, default="./.cache/", help="Cache directory.")
     parser.add_argument("--device", type=str, default="cuda", help="Device.")
     return parser.parse_args()
 
@@ -98,7 +97,7 @@ if __name__ == "__main__":
         base_model_name=config.base_model_name,
         difference=difference,
         two_way=config.two_way,
-        cache_dir=CACHE_DIR,
+        cache_dir=args.cache_dir,
     )
     model.to(device)
     
@@ -107,8 +106,8 @@ if __name__ == "__main__":
         model.load_state_dict(loaded_data.state_dict, strict=False)
         logger.info(f"Loaded {config.pretrained}")
 
-    train_dataset = SNLI(max_length=config.max_length, split="train", two_way=config.two_way)
-    val_dataset = SNLI(max_length=config.max_length, split="validation", two_way=config.two_way)
+    train_dataset = SNLI(max_length=config.max_length, split="train", two_way=config.two_way, cache_dir=args.cache_dir)
+    val_dataset = SNLI(max_length=config.max_length, split="validation", two_way=config.two_way, cache_dir=args.cache_dir)
 
     train_loader = DataLoader(
         train_dataset,
