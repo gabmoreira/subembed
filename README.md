@@ -91,5 +91,5 @@ The `NLITrainingData` (state dict + training config) is saved to:
 Evaluate:
 
 ```bash
-python eval_snli.py --root ./nli_models --model-name <name generated above>
+python eval_snli.py --root ./nli_models --model-name <name of the config.pt parent folder generated above>
 ```
