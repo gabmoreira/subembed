@@ -65,14 +65,14 @@ def compute_similarity(
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train graph embeddings for reconstruction.")
-    parser.add_argument("--batch_size", type=int, default=128, help="Batch size for training.")
+    parser.add_argument("--batch-size", type=int, default=128, help="Batch size for training.")
     parser.add_argument("--epochs", type=int, default=100, help="Number of training epochs.")
     parser.add_argument("--synset", type=str, required=True, help="Synset: n (nouns) or v (verbs).")
-    parser.add_argument("--group_size", type=int, default=20, help="Number of positives + negatives per sample.")
+    parser.add_argument("--group-size", type=int, default=20, help="Number of positives + negatives per sample.")
     parser.add_argument("--N", type=int, default=128, help="Number of vectors per node.")
     parser.add_argument("--D", type=int, default=128, help="Embedding dimension.")
     parser.add_argument("--lbd", type=float, default=0.2, help="Regularization parameter λ.")
-    parser.add_argument("--std_init", type=float, default=1e-4, help="Std-dev for weight initialization.")
+    parser.add_argument("--std-init", type=float, default=1e-4, help="Std-dev for weight initialization.")
     parser.add_argument("--lr", type=float, default=5e-4, help="Learning rate.")
     return parser.parse_args()
 
@@ -135,7 +135,7 @@ def main():
     num_workers = 16
     emb_data = ReconstructionData(**vars(args))
     
-    root_dir = f"./wordnet_embeddings/reconstruction_" \
+    root_dir = f"./wn_r_embeddings/" \
                f"{emb_data.synset}_{emb_data.N}x{emb_data.D}_" \
                f"{emb_data.lbd}_{emb_data.group_size}"
     Path(root_dir).mkdir(parents=True, exist_ok=True)
