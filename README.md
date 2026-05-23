@@ -15,7 +15,7 @@ python train_wordnet_reconstruction.py --N 128 --D 128 --lbd 0.2 --synset n
 The resulting `ReconstructionData` (optimized embeddings + optimization config) is saved to:
 
 ```
-./wn_r_embeddings/{synset}_{N}x{D}_{lbd}_{group_size}/
+./wn_r_embeddings/{synset}_{N}x{D}_{lbd}_{group_size}/config.pt
 ```
 
 Evaluate:
@@ -61,7 +61,7 @@ python train_wordnet_lp.py \
 The resulting `LinkPredictionData` is saved to:
 
 ```
-./wn_lp_embeddings/{seed}_{int(100*closure)}_wordnet_subspace_{N}x{D}_{lbd}_{group_size}/
+./wn_lp_embeddings/{seed}_{int(100*closure)}_wordnet_subspace_{N}x{D}_{lbd}_{group_size}/config.pt
 ```
 
 Evaluate:
