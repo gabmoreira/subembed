@@ -14,15 +14,13 @@ from typing import Tuple
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-CACHE_DIR = "./.cache"
-
 class SNLI(Dataset):
-    def __init__(self, max_length: int, split: str, two_way: bool) -> None:
+    def __init__(self, max_length: int, split: str, two_way: bool, cache_dir: str="./.cache") -> None:
         self.max_length = max_length
         self.split = split
         self.two_way = two_way
         
-        self.dataset = load_dataset("stanfordnlp/snli", split=split, cache_dir=CACHE_DIR)
+        self.dataset = load_dataset("stanfordnlp/snli", split=split, cache_dir=cache_dir)
         self.dataset = self.dataset.filter(lambda x: x['label'] != -1)  
         
     def __len__(self) -> int:
