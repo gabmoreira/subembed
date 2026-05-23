@@ -15,7 +15,7 @@ python train_wordnet_reconstruction.py --N 128 --D 128 --lbd 0.2 --synset n
 The resulting `ReconstructionData` (optimized embeddings + optimization config) is saved to:
 
 ```
-./wn_r_embeddings/{synset}_{N}x{D}_{lbd}_{group_size}/config.pt
+./wn_r_embeddings/{synset}_{N}x{D}_{lbd}_{group_size}/
 ```
 
 Evaluate:
@@ -44,7 +44,7 @@ Download the WordNet splits from https://github.com/lapras-inc/disk-embedding/tr
 - `noun_closure.tsv.train_{percent}percent`
 - `noun_closure.tsv.valid`
 - `noun_closure.tsv.test`
-- `noun_closure.tsv.train_neg`
+- `noun_closure.tsv.full_neg`
 - `noun_closure.tsv.valid_neg`
 - `noun_closure.tsv.test_neg`
 
@@ -61,7 +61,7 @@ python train_wordnet_lp.py \
 The resulting `LinkPredictionData` is saved to:
 
 ```
-./wn_lp_embeddings/{seed}_{int(100*closure)}_wordnet_subspace_{N}x{D}_{lbd}_{group_size}/config.pt
+./wn_lp_embeddings/{seed}_{int(100*closure)}_wordnet_subspace_{N}x{D}_{lbd}_{group_size}/
 ```
 
 Evaluate:
@@ -85,11 +85,22 @@ python train_nli.py \
 The `NLITrainingData` (state dict + training config) is saved to:
 
 ```
-./nli_models/{base_model}_{N}x{D}_lbd{lbd}_context{max_length}_seed{seed}[_2way][_benchmark]/config.pt
+./nli_models/{base_model}_{N}x{D}_lbd{lbd}_context{max_length}_seed{seed}[_2way][_benchmark]/
 ```
 
 Evaluate:
 
 ```bash
-python eval_snli.py --root ./nli_models --model-name <name of the config.pt parent folder generated above>
+python eval_snli.py --root ./nli_models --model-name <name generated above>
+```
+
+## Citation
+
+```bibtex
+@inproceedings{moreira2026native,
+  author    = {Moreira, Gabriel and Marinho, Zita and Marques, Manuel and Costeira, Jo{\~a}o Paulo and Xiong, Chenyan},
+  title     = {Native Hierarchical and Compositional Representations with Subspace Embeddings},
+  booktitle = {Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD '26)},
+  year      = {2026},
+}
 ```
