@@ -85,7 +85,7 @@ python train_nli.py \
 The `NLITrainingData` (state dict + training config) is saved to:
 
 ```
-./nli_models/{base_model}_{N}x{D}_lbd{lbd}_context{max_length}_seed{seed}[_2way][_benchmark]/
+./nli_models/{base_model}_{N}x{D}_lbd{lbd}_context{max_length}_seed{seed}[_2way][_benchmark]/config.pt
 ```
 
 Evaluate:
