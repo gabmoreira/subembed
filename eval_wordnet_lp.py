@@ -32,25 +32,25 @@ def parse_args():
         help="Device to use for computations (e.g., 'cuda:0', 'cpu')."
     )
     parser.add_argument(
-        "--embed_path",
+        "--embed-path",
         type=str,
         required=True,
         help="Path to the LinkPredictionData file."
     )
     parser.add_argument(
-        "--dataset_path",
+        "--dataset-path",
         type=str,
         required=True,
         help="Path to the Link Prediction dataset."
     )
     parser.add_argument(
-        "--batch_size",
+        "--batch-size",
         type=int,
         default=32,
         help="Batch-size."
     )
     parser.add_argument(
-        "--num_workers",
+        "--num-workers",
         type=int,
         default=4,
         help="DataLoader num_workers."
