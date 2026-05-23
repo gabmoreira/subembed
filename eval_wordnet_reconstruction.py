@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 def parse_args():
     p = argparse.ArgumentParser(description="Evaluate Lorentz embeddings (per-node MAP).")
     p.add_argument("--device",     type=str, default="cuda:0")
-    p.add_argument("--embed_path", type=str, required=True)
+    p.add_argument("--embed-path", type=str, required=True)
     return p.parse_args()
 
 
